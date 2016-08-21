@@ -81,6 +81,7 @@ public class MyScheduler implements Scheduler
         }
         Job j = pendingJobs.remove(0);
         Protos.TaskInfo ti = j.makeTask(o.getSlaveId());
+        Protos.CommandInfo commandInfo;
         driver.launchTasks(
             Collections.singletonList(o.getId()),
             Collections.singletonList(ti)

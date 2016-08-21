@@ -68,7 +68,8 @@ public class Job
         .build();
 
     return Protos.TaskInfo.newBuilder().setName("task " + id)
-        .setCommand(Protos.CommandInfo.newBuilder().setValue(command))
+        .setCommand(Protos.CommandInfo.newBuilder().setValue(command)
+                .addUris(Protos.CommandInfo.URI.newBuilder().setValue("/home/sandesh/Documents/mesos_tech_report.pdf").setCache(true).build()))
         .setTaskId(id)
         .addResources(Protos.Resource.newBuilder()
             .setName("cpus")
