@@ -35,12 +35,11 @@ public class AppTest
      */
     public void testApp() throws IOException
     {
-        App app = new App();
         String[] args = new String[3];
         args[1] = "127.0.0.1:5050";
         args[2] = "/home/sandesh/Downloads/mesos-1.0.0/build/jobs";
 
-        app.main(args);
+        App app = new App(args);
     }
 
 }
