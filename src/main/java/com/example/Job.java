@@ -1,9 +1,12 @@
 package com.example;
 
 import org.apache.mesos.Protos;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,6 +18,7 @@ public class Job
   private double mem;
   private String command;
   private boolean submitted;
+  private List<String> uris = new ArrayList<>();
 
   public double getCpus()
   {
@@ -67,10 +71,16 @@ public class Job
         .setValue(uuid.toString())
         .build();
 
-    return Protos.TaskInfo.newBuilder().setName("task " + id)
-        .setCommand(Protos.CommandInfo.newBuilder().setValue(command)
-                .addUris(Protos.CommandInfo.URI.newBuilder().setValue("/home/sandesh/dev/hello/Hello.class").build()))
-        .setTaskId(id)
+    Protos.CommandInfo.Builder commandInfoBuilder = Protos.CommandInfo.newBuilder().setValue(command);
+
+    for (int i=0; i < uris.size(); ++i) {
+
+      commandInfoBuilder.addUris(Protos.CommandInfo.URI.newBuilder().setValue(uris.get(i)).build());
+    }
+
+    Protos.TaskInfo task = Protos.TaskInfo.newBuilder().setName("task " + id)
+        .setCommand(commandInfoBuilder)
+            .setTaskId(id)
         .addResources(Protos.Resource.newBuilder()
             .setName("cpus")
             .setType(Protos.Value.Type.SCALAR)
@@ -83,6 +93,8 @@ public class Job
         )
         .setSlaveId(targetSlave)
         .build();
+
+    return task;
   }
 
   public static Job fromJSON(JSONObject jsonObject) throws JSONException
@@ -91,6 +103,12 @@ public class Job
     job.cpus = jsonObject.getDouble("cpus");
     job.mem = jsonObject.getDouble("mem");
     job.command = jsonObject.getString("command");
+
+    JSONArray jsonArray = jsonObject.getJSONArray("uris");
+
+    for (int i=0; i < jsonArray.length(); ++i) {
+      job.uris.add(jsonArray.getString(i));
+    }
 
     return job;
   }

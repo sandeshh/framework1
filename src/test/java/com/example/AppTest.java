@@ -37,7 +37,7 @@ public class AppTest
     {
         String[] args = new String[3];
         args[1] = "127.0.0.1:5050";
-        args[2] = "/home/sandesh/Downloads/mesos-1.0.0/build/jobs";
+        args[2] = "/home/sandesh/mesos/jobs";
 
         App app = new App(args);
     }

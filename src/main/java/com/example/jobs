@@ -1,0 +1,8 @@
+{
+	"jobs": [{
+		"cpus": 0.5,
+		"mem": 100,
+		"command": "java Hello",
+		"uris" :["/home/sandesh/dev/hello/Hello.class", "hdfs://localhost:54310/pom.xml"]	
+	}]
+}
